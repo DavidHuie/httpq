@@ -10,6 +10,10 @@ type Server struct {
 	httpq *Httpq
 }
 
+func NewServer(httpq *Httpq) *Server {
+	return &Server{httpq}
+}
+
 func (s *Server) Push(w http.ResponseWriter, r *http.Request) {
 	if err := s.httpq.PushRequest(r); err != nil {
 		log.Printf("Error: %v", err)
@@ -33,8 +37,6 @@ func (s *Server) Pop(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-
-	w.WriteHeader(http.StatusOK)
 }
 
 func (s *Server) Size(w http.ResponseWriter, r *http.Request) {
@@ -52,6 +54,4 @@ func (s *Server) Size(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-
-	w.WriteHeader(http.StatusOK)
 }

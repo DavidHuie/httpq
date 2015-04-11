@@ -4,7 +4,7 @@ import (
 	"encoding/binary"
 	"encoding/json"
 
-	"github.com/boltdb/bolt"
+	"github.com/DavidHuie/httpq/Godeps/_workspace/src/github.com/boltdb/bolt"
 )
 
 type BoltQueue struct {
@@ -147,7 +147,7 @@ func (b *BoltQueue) Pop() ([]byte, error) {
 
 func (b *BoltQueue) Size() (uint64, error) {
 	var size uint64
-	err := b.conn.View(func(tx *bolt.Tx) error {
+	err := b.conn.Update(func(tx *bolt.Tx) error {
 		mbucket, err := tx.CreateBucketIfNotExists(metadataBucketName)
 		if err != nil {
 			return err
@@ -162,7 +162,7 @@ func (b *BoltQueue) Size() (uint64, error) {
 			return nil
 		}
 
-		size = metadata.Last - metadata.Head
+		size = (metadata.Last - metadata.Head) + 1
 		return nil
 	})
 	if err != nil {
