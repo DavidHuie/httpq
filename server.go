@@ -45,7 +45,7 @@ func (s *Server) Size(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	sizeMap := map[string]int64{"size": size}
+	sizeMap := map[string]uint64{"size": size}
 	encoder := json.NewEncoder(w)
 	if err := encoder.Encode(sizeMap); err != nil {
 		log.Printf("Error: %v", err)
