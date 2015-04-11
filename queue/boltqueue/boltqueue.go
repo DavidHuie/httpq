@@ -158,7 +158,10 @@ func (b *BoltQueue) Size() (uint64, error) {
 		}
 
 		if metadata.Head > metadata.Last {
-			size = 0
+			return nil
+		}
+
+		if metadata.Head == 0 && metadata.Last == 0 {
 			return nil
 		}
 
