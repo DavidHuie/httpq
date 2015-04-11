@@ -20,6 +20,10 @@ type queueMetadata struct {
 	Last uint64
 }
 
+func (q *queueMetadata) empty() bool {
+	return q.Head > q.Last || (q.Head == 0 && q.Last == 0)
+}
+
 var (
 	metadataBucketName = []byte("b")
 	metadataKey        = []byte("m")
@@ -109,8 +113,7 @@ func (b *BoltQueue) Pop() ([]byte, error) {
 			return err
 		}
 
-		// Handle an empty queue
-		if metadata.Head > metadata.Last {
+		if metadata.empty() {
 			response = nil
 			return nil
 		}
@@ -157,11 +160,7 @@ func (b *BoltQueue) Size() (uint64, error) {
 			return err
 		}
 
-		if metadata.Head > metadata.Last {
-			return nil
-		}
-
-		if metadata.Head == 0 && metadata.Last == 0 {
+		if metadata.empty() {
 			return nil
 		}
 
