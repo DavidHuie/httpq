@@ -56,3 +56,7 @@ func (h *Httpq) PopRequest() (*http.Request, error) {
 
 	return request, nil
 }
+
+func (h *Httpq) Size() (int64, error) {
+	return h.q.Size()
+}
