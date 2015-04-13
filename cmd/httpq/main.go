@@ -18,24 +18,26 @@ func main() {
 	var port string
 	flag.StringVar(&port, "port", ":3000", "the port to listen on")
 	var redisUrl string
-	flag.StringVar(&redisUrl, "redis_url", "", "the url for redis (optional)")
+	flag.StringVar(&redisUrl, "redis_url", ":6379", "the url for redis")
 	var redisIdleConnections int
-	flag.IntVar(&redisIdleConnections, "redis_idle_connections", 50, "maximum number of idle redis connections (only applicable if using redis)")
+	flag.IntVar(&redisIdleConnections, "redis_idle_connections", 50, "maximum number of idle redis connections")
+	var useRedis bool
+	flag.BoolVar(&useRedis, "redis", false, "use Redis for persistence")
 	flag.Parse()
 
 	var queue httpq.Queue
 
-	if redisUrl == "" {
+	if useRedis {
+		connManager := NewRedisConnManager(redisUrl)
+		redisPool := redis.NewPool(connManager.newRedisConn, redisIdleConnections)
+		queue = redisqueue.NewRedisQueue(redisPool)
+	} else {
 		db, err := bolt.Open(dbPath, 0600, nil)
 		if err != nil {
 			log.Fatal(err)
 		}
 		defer db.Close()
 		queue = boltqueue.NewBoltQueue(db)
-	} else {
-		connManager := NewRedisConnManager(redisUrl)
-		redisPool := redis.NewPool(connManager.newRedisConn, redisIdleConnections)
-		queue = redisqueue.NewRedisQueue(redisPool)
 	}
 
 	hq := httpq.NewHttpq(queue)

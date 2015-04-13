@@ -1,5 +1,5 @@
 build: dep
-	go build -o bin/httpq github.com/DavidHuie/httpq/cmd
+	go build -o bin/httpq github.com/DavidHuie/httpq/cmd/httpq
 
 test: dep
 	go test ./...
