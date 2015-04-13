@@ -1,6 +1,6 @@
 # httpq
 
-Buffer HTTP requests and replay them later. Either Redis or BoltDB can be used as a backing store.
+With httpq, you can buffer HTTP requests and replay them later. Either Redis or BoltDB can be used as a backing store.
 
 ## Installation
 
