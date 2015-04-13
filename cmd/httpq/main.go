@@ -30,6 +30,7 @@ func main() {
 	if useRedis {
 		connManager := NewRedisConnManager(redisUrl)
 		redisPool := redis.NewPool(connManager.newRedisConn, redisIdleConnections)
+		defer redisPool.Close()
 		queue = redisqueue.NewRedisQueue(redisPool)
 	} else {
 		db, err := bolt.Open(dbPath, 0600, nil)
