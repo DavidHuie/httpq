@@ -18,9 +18,9 @@ func main() {
 	var port string
 	flag.StringVar(&port, "port", ":3000", "the port to listen on")
 	var redisUrl string
-	flag.StringVar(&redisUrl, "redis_url", ":6379", "the url for redis")
+	flag.StringVar(&redisUrl, "redis_url", ":6379", "the url for Redis")
 	var redisIdleConnections int
-	flag.IntVar(&redisIdleConnections, "redis_idle_connections", 50, "maximum number of idle redis connections")
+	flag.IntVar(&redisIdleConnections, "redis_idle_connections", 50, "maximum number of idle Redis connections")
 	var useRedis bool
 	flag.BoolVar(&useRedis, "redis", false, "use Redis for persistence")
 	flag.Parse()
@@ -47,5 +47,5 @@ func main() {
 	http.HandleFunc("/pop", server.Pop)
 	http.HandleFunc("/size", server.Size)
 
-	log.Fatal(http.ListenAndServe(port, nil))
+	panic(http.ListenAndServe(port, nil))
 }

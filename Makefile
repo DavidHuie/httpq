@@ -6,3 +6,6 @@ test: dep
 
 dep:
 	godep save -r ./...
+
+install:
+	go install github.com/DavidHuie/httpq/cmd/httpq
