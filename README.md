@@ -1,6 +1,6 @@
 # httpq
 
-With httpq, you can buffer HTTP requests and replay them later, and either Redis or BoltDB can be used for persistence. This is useful for buffering HTTP requests that do not have to be processed in realtime, such as webhooks.
+With Httpq, you can buffer HTTP requests and replay them later, and either Redis or BoltDB can be used for persistence. This is useful for buffering HTTP requests that do not have to be processed in realtime, such as webhooks.
 
 ## Installation
 
