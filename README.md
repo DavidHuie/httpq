@@ -1,6 +1,6 @@
 # httpq
 
-With Httpq, you can buffer HTTP requests and replay them later, and either Redis or BoltDB can be used for persistence. This is useful for buffering HTTP requests that do not have to be processed in realtime, such as webhooks.
+With Httpq, you can buffer HTTP requests and replay them later, and persistence can be either to Redis or to disk. This is useful for buffering HTTP requests that do not have to be processed in realtime, such as webhooks.
 
 ## Installation
 
@@ -14,7 +14,7 @@ $ go install github.com/DavidHuie/httpq/cmd/httpq
 $ httpq -redis=true -redis_url=":6379"
 ```
 
-## Using BoltDB (disk persistence)
+## Using disk persistence
 
 ```shell
 $ httpq -db_path="/tmp/httpq.db"
