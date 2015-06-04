@@ -23,6 +23,8 @@ func main() {
 	flag.IntVar(&redisIdleConnections, "redis_idle_connections", 50, "maximum number of idle Redis connections")
 	var useRedis bool
 	flag.BoolVar(&useRedis, "redis", false, "use Redis for persistence")
+	var debug bool
+	flag.BoolVar(&debug, "debug", false, "enable debug mode")
 	flag.Parse()
 
 	var queue httpq.Queue
@@ -41,7 +43,7 @@ func main() {
 		queue = boltqueue.NewBoltQueue(db)
 	}
 
-	hq := httpq.NewHttpq(queue)
+	hq := httpq.NewHttpq(queue, debug)
 	server := httpq.NewServer(hq)
 
 	http.HandleFunc("/push", server.Push)
